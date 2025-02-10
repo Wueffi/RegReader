@@ -13,11 +13,10 @@ import java.util.Map;
 
 public class RegReaderConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "wueffis_regreader.json");
+    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "regreader.json");
 
     private static boolean hudEnabled = true;
-    private static final Map<String, 
-            RedstoneRegister> registers = new HashMap<>();
+    private static final Map<String, RedstoneRegister> registers = new HashMap<>();
 
     public static boolean isHudEnabled() {
         return hudEnabled;

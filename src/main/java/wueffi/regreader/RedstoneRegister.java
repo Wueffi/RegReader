@@ -1,9 +1,13 @@
 package wueffi.regreader;
 
 import net.minecraft.util.math.BlockPos;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RedstoneRegister {
-    public final String name;
+    private static final Logger LOGGER = LogManager.getLogger("RedstoneRegister");
+
+    public String name;
     public final int bits;
     public final int spacing;
     public final boolean inverted;
@@ -19,17 +23,28 @@ public class RedstoneRegister {
 
     public void setPosition(BlockPos position) {
         this.position = position;
+        LOGGER.info("Register '{}': Position set to {}", name, position);
     }
 
     public BlockPos getPosition() {
         return position;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setLastReadValue(int value) {
         this.lastReadValue = value;
+        LOGGER.info("Register '{}': Last read value set to {}", name, value);
     }
 
     public int readValue() {
+        LOGGER.info("Register '{}': Returning last read value = {}", name, lastReadValue);
         return lastReadValue;
     }
 }
