@@ -1,10 +1,12 @@
 package wueffi.regreader.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
+import wueffi.regreader.RegReaderConfig;
 import wueffi.regreader.RegisterManager;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
@@ -18,13 +20,18 @@ public class HUDCommand {
     };
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("regreader")
+        registerCommand(dispatcher, "regreader");
+        registerCommand(dispatcher, "rr");
+    }
+
+    private static void registerCommand(CommandDispatcher<FabricClientCommandSource> dispatcher, String rootCommand) {
+        dispatcher.register(literal(rootCommand)
                 .then(literal("hud")
                         .then(argument("state", StringArgumentType.word())
                                 .suggests(HUD_SUGGESTIONS)
                                 .executes(context -> {
                                     String state = StringArgumentType.getString(context, "state");
-                                    boolean hudEnabled = RegisterManager.isHudEnabled();
+                                    boolean hudEnabled = RegReaderConfig.isHudEnabled();
 
                                     if (state.equalsIgnoreCase("toggle")) {
                                         RegisterManager.setHudEnabled(!hudEnabled);
@@ -37,7 +44,7 @@ public class HUDCommand {
                                         return 0;
                                     }
 
-                                    context.getSource().sendFeedback(Text.literal("HUD is now " + (RegisterManager.isHudEnabled() ? "enabled" : "disabled")));
+                                    context.getSource().sendFeedback(Text.literal("HUD is now " + (RegReaderConfig.isHudEnabled() ? "enabled" : "disabled")));
                                     return 1;
                                 }))
                         .then(literal("color")
@@ -45,7 +52,7 @@ public class HUDCommand {
                                         .executes(context -> {
                                             String color = StringArgumentType.getString(context, "color");
                                             if (color.matches("^#[0-9A-Fa-f]{8}$")) {
-                                                RegisterManager.setHudColor(color);
+                                                RegReaderConfig.setHudColor(color);
                                                 context.getSource().sendFeedback(Text.literal("HUD color set to " + color));
                                             } else {
                                                 context.getSource().sendError(Text.literal("Invalid color format. Please use a valid hex color code (#AARRGGBB). Remember to use '"));

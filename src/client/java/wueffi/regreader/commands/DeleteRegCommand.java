@@ -18,14 +18,19 @@ public class DeleteRegCommand {
     };
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("regreader")
+        registerCommand(dispatcher, "regreader");
+        registerCommand(dispatcher, "rr");
+    }
+
+    private static void registerCommand(CommandDispatcher<FabricClientCommandSource> dispatcher, String rootCommand) {
+        dispatcher.register(literal(rootCommand)
                 .then(literal("deletereg")
                         .then(argument("name", StringArgumentType.word())
                                 .suggests(REGISTER_SUGGESTIONS)
                                 .executes(context -> {
                                     String name = StringArgumentType.getString(context, "name");
                                     RegisterManager.removeRegister(name);
-                                    context.getSource().sendFeedback(Text.literal("Deleted initialize '" + name + "'"));
+                                    context.getSource().sendFeedback(Text.literal("Deleted register '" + name + "'"));
                                     return 1;
                                 }))));
     }

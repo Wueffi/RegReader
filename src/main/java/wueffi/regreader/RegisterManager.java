@@ -2,34 +2,26 @@ package wueffi.regreader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.css.Rect;
 
 import java.util.*;
 
 public class RegisterManager {
-    private static final List<RedstoneRegister> registers = new ArrayList<>();
-    public static boolean hudEnabled = true;
-    private static String hudColor = "#66ffffff";
+    private static final List<RedstoneRegister> registers = RegReaderConfig.registers;
+    public static boolean hudEnabled = RegReaderConfig.isHudEnabled();
     private static final Logger LOGGER = LoggerFactory.getLogger("RegReader");
-
-    public static boolean isHudEnabled() {
-        return hudEnabled;
-    }
 
     public static void setHudEnabled(boolean enabled) {
         hudEnabled = enabled;
-    }
-
-    public static String getHudColor() {
-        return hudColor;
+        RegReaderConfig.setHudEnabled(hudEnabled);
     }
 
     public static void setHudColor(String color) {
         if (color.matches("^#[0-9A-Fa-f]{6}$") || color.matches("^#[0-9A-Fa-f]{8}$")) {
-            hudColor = color;
+            RegReaderConfig.setHudColor(color);
         } else {
-            hudColor = "#66ffffff";
+            RegReaderConfig.setHudColor("#FFFFFFFF");
         }
-        LOGGER.info("hudcolor" + hudColor);
     }
 
     public static List<RedstoneRegister> getRegisters() {
@@ -46,12 +38,11 @@ public class RegisterManager {
         while (index < registers.size() && registers.get(index).name.compareTo(register.name) < 0) {
             index++;
         }
-        registers.add(index, register);
-        RegReaderConfig.save();
+        RegReaderConfig.addRegister(index, register);
     }
 
     public static void removeRegister(String name) {
-        registers.removeIf(register -> register.name.equals(name));
+        RegReaderConfig.removeRegister(name);
     }
 
     public static void moveRegister(String name, String direction) {
@@ -64,6 +55,7 @@ public class RegisterManager {
         } else if (direction.equalsIgnoreCase("down") && index < registers.size() - 1) {
             Collections.swap(registers, index, index + 1);
         }
+        RegReaderConfig.save();
     }
 
     public static void moveRegister(String name, int position) {
@@ -72,16 +64,18 @@ public class RegisterManager {
 
         registers.remove(register);
         registers.add(position, register);
+        RegReaderConfig.save();
     }
 
     public static boolean renameRegister(String oldName, String newName) {
-        RedstoneRegister register = findRegisterByName(oldName);  // Find the register by old name
+        RedstoneRegister register = findRegisterByName(oldName);
         if (register == null || findRegisterByName(newName) != null) {
-            return false;  // Return false if register is not found or new name already exists
+            return false;
         }
 
-        register.setName(newName);  // Update the register's name
-        return true;  // Successfully renamed
+        register.setName(newName);
+        RegReaderConfig.save();
+        return true;
     }
 
     static RedstoneRegister findRegisterByName(String name) {

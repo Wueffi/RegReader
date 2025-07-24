@@ -12,7 +12,12 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 public class AddRegCommand {
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("regreader")
+        registerCommand(dispatcher, "regreader");
+        registerCommand(dispatcher, "rr");
+    }
+
+    private static void registerCommand(CommandDispatcher<FabricClientCommandSource> dispatcher, String rootCommand) {
+        dispatcher.register(literal(rootCommand)
                 .then(literal("addreg")
                         .then(argument("name", StringArgumentType.word())
                                 .then(argument("bits", IntegerArgumentType.integer(1))
@@ -24,8 +29,8 @@ public class AddRegCommand {
                                                             int spacing = IntegerArgumentType.getInteger(context, "spacing");
                                                             boolean inverted = BoolArgumentType.getBool(context, "inverted");
                                                             RegisterManager.addRegister(name, bits, spacing, inverted);
-                                                            RegisterInteractionHandler.setLastAddedRegisterName(name); // Set the last added initialize
-                                                            context.getSource().sendFeedback(Text.literal("Added initialize '" + name + "'"));
+                                                            RegisterInteractionHandler.setLastAddedRegisterName(name);
+                                                            context.getSource().sendFeedback(Text.literal("Added register '" + name + "'"));
                                                             return 1;
                                                         })))))));
     }

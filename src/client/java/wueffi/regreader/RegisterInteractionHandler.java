@@ -36,7 +36,7 @@ public class RegisterInteractionHandler {
         // Reset lastAddedRegisterName after a short delay (optional)
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (lastAddedRegisterName != null && MinecraftClient.getInstance().player != null) {
-                MinecraftClient.getInstance().player.sendMessage(Text.literal("Right-click a lamp, torch, or repeater to associate it with initialize '" + lastAddedRegisterName + "'"), true);
+                MinecraftClient.getInstance().player.sendMessage(Text.literal("Right-click a lamp, torch, or repeater to associate it with regsiter '" + lastAddedRegisterName + "'"), true);
             }
         });
     }

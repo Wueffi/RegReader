@@ -11,7 +11,7 @@
 		"youtube": "https://youtube.com/@wueffiYT/",
 		"sources": "https://github.com/wueffi/RegReader"
 	},
-	"license": "CC0-1.0",
+	"license": "ARR",
 	"icon": "assets/wueffis-regreader/icon.jpg",
 	"environment": "*",
 	"entrypoints": {

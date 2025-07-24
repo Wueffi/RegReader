@@ -35,16 +35,20 @@ public class WueffisRegReaderClient implements ClientModInitializer {
             HUDCommand.register(dispatcher);
             MoveRegCommand.register(dispatcher);
             RenameRegCommand.register(dispatcher);
+            ConfigCommand.register(dispatcher);
+            DeleteAllCommand.register(dispatcher);
+            ProfileCommand.register(dispatcher);
         });
 
         // Load config
+        LOGGER.info("Loading Config..");
         RegReaderConfig.load();
     }
     @Override
     public void onInitializeClient() {
+        LOGGER.info("Registering Commands...");
         initialize();
-        LOGGER.info("RegReader activated!");
-
+        LOGGER.info("Registering Keybind...");
         toggleHudKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.regreader.toggle_hud",
                 InputUtil.Type.KEYSYM,
@@ -56,5 +60,6 @@ public class WueffisRegReaderClient implements ClientModInitializer {
                 RegisterManager.setHudEnabled(!hudEnabled);
             }
         });
+        LOGGER.info("RegReader activated!");
     }
 }
