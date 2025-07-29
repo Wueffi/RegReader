@@ -17,13 +17,20 @@ public class RegReaderConfig {
     private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "regreader.json");
 
     private static boolean hudEnabled = true;
-    private static boolean coloredRegNames = true;
-    private static String hudColor = "#56FFFFF";
-    private static Integer RectangleWidth = 85;
-    private static Integer hudXPos = 8;
-    private static Integer hudYPos = 8;
-    private static Integer displayBase = 10;
+    private static boolean titleMode = true;
     public static final List<RedstoneRegister> registers = new ArrayList<>();
+    public static final List<RegReaderHUD> huds = new ArrayList<>();
+    static final RegReaderHUD sampleHUD = new RegReaderHUD("Default", "#ffffffff", 10, true, 80, 12, 10);
+
+    public static void addHUD(RegReaderHUD hud) {
+        huds.add(hud);
+        save();
+    }
+
+    public static void removeHUD(String name) {
+        huds.removeIf(h -> h.getHUDName().equalsIgnoreCase(name));
+        save();
+    }
 
     public static boolean isHudEnabled() {
         return hudEnabled;
@@ -32,66 +39,6 @@ public class RegReaderConfig {
     public static void setHudEnabled(boolean enabled) {
         hudEnabled = enabled;
         save();
-    }
-
-    public static String getHudColor() {
-        return hudColor;
-    }
-
-    public static void setHudColor(String color) {
-        hudColor = color;
-        save();
-    }
-
-    public static boolean getColoredName() {
-        return coloredRegNames;
-    }
-
-    public static void setColoredName(boolean setting) {
-        coloredRegNames = setting;
-        save();
-    }
-
-    public static Integer getRectangleWidth() {
-        return RectangleWidth;
-    }
-
-    public static void setRectangleWidth(Integer Size) {
-        RectangleWidth = Size;
-        save();
-    }
-
-    public static Integer getXPos() {
-        return hudXPos;
-    }
-
-    public static Integer getYPos() {
-        return hudYPos;
-    }
-
-    public static void setHUDX(Integer Pos) {
-        hudXPos = Pos;
-        save();
-    }
-
-    public static void setHUDY(Integer Pos) {
-        hudYPos = Pos;
-        save();
-    }
-
-    public static int getDisplayBase() {
-        return displayBase;
-    }
-
-    public static void setDisplayBase(int base) {
-        if (base == 2 || base == 8 || base == 10 || base == 16) {
-            displayBase = base;
-            save();
-        }
-    }
-
-    public static List<RedstoneRegister> getRegisters() {
-        return registers;
     }
 
     public static void addRegister(int index, RedstoneRegister register) {
@@ -109,20 +56,26 @@ public class RegReaderConfig {
         save();
     }
 
+    public static boolean getTitleMode() {
+        return titleMode;
+    }
+
+    public static void setTitleMode(boolean newMode) {
+        titleMode = newMode;
+        save();
+    }
+
     public static void load() {
         if (CONFIG_FILE.exists()) {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
                 ConfigData data = GSON.fromJson(reader, ConfigData.class);
                 if (data != null) {
                     hudEnabled = data.hudEnabled;
-                    hudColor = data.hudColor;
-                    coloredRegNames = data.coloredNames;
-                    RectangleWidth = data.RectangleWidth;
-                    hudXPos = data.XPos;
-                    hudYPos = data.YPos;
-                    displayBase = data.displayBase;
+                    titleMode = data.titleMode;
                     registers.clear();
                     registers.addAll(data.registers);
+                    huds.clear();
+                    huds.addAll(data.huds);
                 }
                 else {
                     resetToDefaults();
@@ -138,19 +91,16 @@ public class RegReaderConfig {
 
     public static void resetToDefaults() {
         hudEnabled = true;
-        hudColor = "#FFFFFFFF";
-        coloredRegNames = true;
-        RectangleWidth = 85;
-        hudXPos = 8;
-        hudYPos = 8;
-        displayBase = 10;
+        titleMode = true;
         registers.clear();
+        huds.clear();
+        huds.add(sampleHUD);
         save();
     }
 
 
     public static void save() {
-        ConfigData data = new ConfigData(hudEnabled, hudColor, coloredRegNames, RectangleWidth, hudXPos, hudYPos, displayBase, registers);
+        ConfigData data = new ConfigData(hudEnabled, titleMode, registers, huds);
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(data, writer);
         } catch (IOException e) {
@@ -160,23 +110,15 @@ public class RegReaderConfig {
 
     private static class ConfigData {
         boolean hudEnabled;
-        String hudColor;
-        boolean coloredNames;
-        int RectangleWidth;
-        int XPos;
-        int YPos;
-        int displayBase;
+        boolean titleMode;
         List<RedstoneRegister> registers;
+        List<RegReaderHUD> huds;
 
-        ConfigData(boolean hudEnabled, String hudColor, boolean coloredNames, int RectangleWidth, int hudXPos, int hudYPos, int displayBase, List<RedstoneRegister> registers) {
+        ConfigData(boolean hudEnabled, boolean titleMode, List<RedstoneRegister> registers, List<RegReaderHUD> huds) {
             this.hudEnabled = hudEnabled;
-            this.hudColor = hudColor;
-            this.coloredNames = coloredRegNames;
-            this.RectangleWidth = RectangleWidth;
-            this.XPos = hudXPos;
-            this.YPos = hudYPos;
-            this.displayBase = displayBase;
+            this.titleMode = titleMode;
             this.registers = registers;
+            this.huds = huds;
         }
     }
 }

@@ -10,11 +10,14 @@ public class RedstoneRegister {
     private BlockPos position;
     private int lastReadValue;
 
-    public RedstoneRegister(String name, int bits, int spacing, boolean inverted) {
+    private String assignedHUD;
+
+    public RedstoneRegister(String name, int bits, int spacing, boolean inverted, String assignedHUD) {
         this.name = name;
         this.bits = bits;
         this.spacing = spacing;
         this.inverted = inverted;
+        this.assignedHUD = assignedHUD;
     }
 
     public void setPosition(BlockPos position) {
@@ -41,4 +44,11 @@ public class RedstoneRegister {
         return lastReadValue;
     }
 
+    public String getAssignedHUD() {
+        return assignedHUD;
+    }
+
+    public void setAssignedHUD(String hudName) {
+        this.assignedHUD = hudName;
+    }
 }

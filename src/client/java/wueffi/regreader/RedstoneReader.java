@@ -28,7 +28,7 @@ public class RedstoneReader {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.world == null || client.player == null) return;
 
-        for (RedstoneRegister register : RegisterManager.getRegisters()) {
+        for (RedstoneRegister register : RegisterManager.getAllRegisters()) {
             BlockPos pos = register.getPosition();
             if (pos != null) {
                 int value = readRedstoneSignal(client.world, pos, register.bits, register.spacing, register.inverted);

@@ -16,24 +16,36 @@ public class RegisterManager {
         RegReaderConfig.setHudEnabled(hudEnabled);
     }
 
-    public static void setHudColor(String color) {
-        if (color.matches("^#[0-9A-Fa-f]{6}$") || color.matches("^#[0-9A-Fa-f]{8}$")) {
-            RegReaderConfig.setHudColor(color);
-        } else {
-            RegReaderConfig.setHudColor("#FFFFFFFF");
-        }
-    }
-
-    public static List<RedstoneRegister> getRegisters() {
+    public static List<RedstoneRegister> getAllRegisters() {
         return registers;
     }
 
-    public static void addRegister(String name, Integer bits, Integer spacing, Boolean inverted) {
+    public static List<RedstoneRegister> getRegisters(String hudName) {
+        List<RedstoneRegister> result = new ArrayList<>();
+        for (RedstoneRegister register : registers) {
+            if (register.getAssignedHUD() != null && register.getAssignedHUD().equalsIgnoreCase(hudName)) {
+                result.add(register);
+            }
+        }
+        return result;
+    }
+
+
+    public static void addRegister(String name, Integer bits, Integer spacing, Boolean inverted, String HUDName) {
         if (bits == null) bits = 8;
         if (spacing == null) spacing = 2;
         if (inverted == null) inverted = false;
 
-        RedstoneRegister register = new RedstoneRegister(name, bits, spacing, inverted);
+        if(HUDManager.findHUDByName(HUDName) == null) {
+            if (HUDManager.getHUDs().isEmpty()) {
+                HUDManager.addHUD("Default", "#ffffffff", 10, true, 80, 12, 10);
+                HUDName = "Default";
+            } else {
+                HUDName = HUDManager.getHUDs().get(0).getHUDName();
+            }
+        }
+
+        RedstoneRegister register = new RedstoneRegister(name, bits, spacing, inverted, HUDName);
         int index = 0;
         while (index < registers.size() && registers.get(index).name.compareTo(register.name) < 0) {
             index++;
@@ -78,7 +90,7 @@ public class RegisterManager {
         return true;
     }
 
-    static RedstoneRegister findRegisterByName(String name) {
+    public static RedstoneRegister findRegisterByName(String name) {
         for (RedstoneRegister register : registers) {
             if (register.name.equals(name)) {
                 return register;

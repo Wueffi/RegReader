@@ -11,7 +11,7 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 public class DeleteRegCommand {
     private static final SuggestionProvider<FabricClientCommandSource> REGISTER_SUGGESTIONS = (context, builder) -> {
-        for (RedstoneRegister register : RegisterManager.getRegisters()) {
+        for (RedstoneRegister register : RegisterManager.getAllRegisters()) {
             builder.suggest(register.name);
         }
         return builder.buildFuture();

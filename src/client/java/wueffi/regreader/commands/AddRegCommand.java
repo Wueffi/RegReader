@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
 import wueffi.regreader.RegisterInteractionHandler;
 import wueffi.regreader.RegisterManager;
+
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 public class AddRegCommand {
@@ -28,10 +29,32 @@ public class AddRegCommand {
                                                             int bits = IntegerArgumentType.getInteger(context, "bits");
                                                             int spacing = IntegerArgumentType.getInteger(context, "spacing");
                                                             boolean inverted = BoolArgumentType.getBool(context, "inverted");
-                                                            RegisterManager.addRegister(name, bits, spacing, inverted);
+
+                                                            RegisterManager.addRegister(name, bits, spacing, inverted, "Default");
                                                             RegisterInteractionHandler.setLastAddedRegisterName(name);
-                                                            context.getSource().sendFeedback(Text.literal("Added register '" + name + "'"));
+                                                            context.getSource().sendFeedback(Text.literal("Added register '" + name + "' to HUD 'Default'"));
                                                             return 1;
-                                                        })))))));
+                                                        })
+
+                                                        .then(argument("hud", StringArgumentType.word())
+                                                                .executes(context -> {
+                                                                    String name = StringArgumentType.getString(context, "name");
+                                                                    int bits = IntegerArgumentType.getInteger(context, "bits");
+                                                                    int spacing = IntegerArgumentType.getInteger(context, "spacing");
+                                                                    boolean inverted = BoolArgumentType.getBool(context, "inverted");
+                                                                    String hud = StringArgumentType.getString(context, "hud");
+
+                                                                    RegisterManager.addRegister(name, bits, spacing, inverted, hud);
+                                                                    RegisterInteractionHandler.setLastAddedRegisterName(name);
+                                                                    context.getSource().sendFeedback(Text.literal("Added register '" + name + "' to HUD '" + hud + "'"));
+                                                                    return 1;
+                                                                })
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
     }
 }
