@@ -4,9 +4,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class RedstoneRegister {
     public String name;
-    public final int bits;
-    public final int spacing;
-    public final boolean inverted;
+    public int bits;
+    public int spacing;
+    public boolean inverted;
     private BlockPos position;
     private int lastReadValue;
 
@@ -30,6 +30,30 @@ public class RedstoneRegister {
 
     public String getName() {
         return name;
+    }
+
+    public void setbits(Integer bits) {
+        this.bits = bits;
+    }
+
+    public Integer getBits() {
+        return bits;
+    }
+
+    public void setspacing(Integer spacing) {
+        this.spacing = spacing;
+    }
+
+    public Integer getSpacing() {
+        return spacing;
+    }
+
+    public void setinverted(boolean inverted) {
+        this.inverted = inverted;
+    }
+
+    public boolean getInverted() {
+        return inverted;
     }
 
     public void setName(String name) {

@@ -42,7 +42,7 @@ public class HUDRenderer {
                     if (RegReaderConfig.getTitleMode()) {
                         matrices.push();
                         float scale = 0.8f;
-                        matrices.translate(hud.xPos, hud.yPos - 7, 0);
+                        matrices.translate(hud.xPos, hud.yPos - 8, 0);
                         matrices.scale(scale, scale, 1.0f);
 
                         if (coloredNames) {

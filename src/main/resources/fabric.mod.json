@@ -2,8 +2,8 @@
 	"schemaVersion": 1,
 	"id": "wueffis-regreader",
 	"version": "${version}",
-	"name": "wueffis-regreader",
-	"description": "Wueffi's RegReader Mod",
+	"name": "RegReader",
+	"description": "Simple Mod to read and display all kinds of Registers in Minecraft.",
 	"authors": [
 		"Wueffi"
 	],
@@ -12,7 +12,7 @@
 		"sources": "https://github.com/wueffi/RegReader"
 	},
 	"license": "ARR",
-	"icon": "assets/wueffis-regreader/icon.jpg",
+	"icon": "assets/wueffis-regreader/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -20,6 +20,13 @@
 		],
 		"client": [
           "wueffi.regreader.WueffisRegReaderClient"
+		],
+		"modmenu": [
+			{
+				"adapter": "default",
+				"value": "wueffi.regreader.RegReaderModMenu",
+				"environment": "client"
+			}
 		]
 	},
 	"depends": {

@@ -18,6 +18,9 @@ public class RegReaderConfig {
 
     private static boolean hudEnabled = true;
     private static boolean titleMode = true;
+    private static Integer defaultBits = 8;
+    private static Integer defaultSpacing = 2;
+    private static boolean defaultInverted = false;
     public static final List<RedstoneRegister> registers = new ArrayList<>();
     public static final List<RegReaderHUD> huds = new ArrayList<>();
     static final RegReaderHUD sampleHUD = new RegReaderHUD("Default", "#ffffffff", 10, true, 80, 12, 10);
@@ -56,6 +59,35 @@ public class RegReaderConfig {
         save();
     }
 
+    public static void removeAllHUDs() {
+        huds.clear();
+        save();
+    }
+
+    public static Integer getDefaultBits() {
+        return defaultBits;
+    }
+
+    public static Integer getDefaultSpacing() {
+        return defaultSpacing;
+    }
+
+    public static boolean getDefaultInverted() {
+        return defaultInverted;
+    }
+
+    public static void setDefaultBits(Integer newBits) {
+        defaultBits = newBits;
+    }
+
+    public static void setDefaultSpacing(Integer newSpacing) {
+        defaultBits = newSpacing;
+    }
+
+    public static void setDefaultInverted(boolean newInverted) {
+        defaultInverted = newInverted;
+    }
+
     public static boolean getTitleMode() {
         return titleMode;
     }
@@ -92,6 +124,9 @@ public class RegReaderConfig {
     public static void resetToDefaults() {
         hudEnabled = true;
         titleMode = true;
+        defaultBits = 8;
+        defaultSpacing = 2;
+        defaultInverted = false;
         registers.clear();
         huds.clear();
         huds.add(sampleHUD);
@@ -100,7 +135,7 @@ public class RegReaderConfig {
 
 
     public static void save() {
-        ConfigData data = new ConfigData(hudEnabled, titleMode, registers, huds);
+        ConfigData data = new ConfigData(hudEnabled, titleMode, defaultBits, defaultSpacing, defaultInverted, registers, huds);
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(data, writer);
         } catch (IOException e) {
@@ -111,12 +146,18 @@ public class RegReaderConfig {
     private static class ConfigData {
         boolean hudEnabled;
         boolean titleMode;
+        Integer defaultBits;
+        Integer defaultSpacing;
+        Boolean defaultInverted;
         List<RedstoneRegister> registers;
         List<RegReaderHUD> huds;
 
-        ConfigData(boolean hudEnabled, boolean titleMode, List<RedstoneRegister> registers, List<RegReaderHUD> huds) {
+        ConfigData(boolean hudEnabled, boolean titleMode, Integer defaultBits, Integer defaultSpacing, boolean defaultInverted, List<RedstoneRegister> registers, List<RegReaderHUD> huds) {
             this.hudEnabled = hudEnabled;
             this.titleMode = titleMode;
+            this.defaultBits = defaultBits;
+            this.defaultSpacing = defaultSpacing;
+            this.defaultInverted = defaultInverted;
             this.registers = registers;
             this.huds = huds;
         }

@@ -13,7 +13,7 @@ import wueffi.regreader.RegisterManager;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
-public class assignHUDCommand {
+public class AssignHUDCommand {
     private static final SuggestionProvider<FabricClientCommandSource> REGISTER_SUGGESTIONS = (context, builder) -> {
         for (RedstoneRegister register : RegisterManager.getAllRegisters()) {
             builder.suggest(register.name);

@@ -38,6 +38,8 @@ public class WueffisRegReaderClient implements ClientModInitializer {
             ConfigCommand.register(dispatcher);
             DeleteAllCommand.register(dispatcher);
             ProfileCommand.register(dispatcher);
+            AssignHUDCommand.register(dispatcher);
+            DefaultAddCommand.register(dispatcher);
         });
 
         // Load config

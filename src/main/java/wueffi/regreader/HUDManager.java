@@ -13,6 +13,14 @@ public class HUDManager {
         return huds;
     }
 
+    public static List<String> getHUDNames() {
+        List<String> list = new ArrayList<>(List.of());
+        for(RegReaderHUD hud : huds) {
+            list.add(hud.getHUDName());
+        }
+        return list;
+    }
+
     public static void addHUD(String name, String color, Integer base, Boolean coloredNames, Integer width, Integer x, Integer y) {
         if (name == null || name.isBlank()) return;
         if (base == null) base = 10;
