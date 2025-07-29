@@ -1,3 +1,4 @@
+![Static Badge](https://img.shields.io/badge/Version-1.5.0-blue) ![Modrinth Downloads](https://img.shields.io/modrinth/dt/regreader)
 # RegReader - A Register Tracking HUD for Minecraft
 
 **RegReader** is a lightweight yet powerful Minecraft mod that adds a customizable **HUD overlay** to keep track of your register values in-game! This does not only work for Registers, you can use it on Lamps and Torches too! Whether you're debugging, programming, or just want an easy way to monitor values, RegReader provides an intuitive and user-friendly experience.  
