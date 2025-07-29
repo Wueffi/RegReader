@@ -13,10 +13,61 @@
 - **Persistent Config** – Your settings are saved and across servers for a seamless experience. 
 - **Profiles** - Save the current config and Regs as a Profile for Later!
 
-### **Why Use RegReader?**  
-- Perfect for computational Minecraft setups, redstone engineers, and coding enthusiasts.  
-- Enhances debugging and organization for advanced players.  
-- Simple yet highly configurable to fit your needs.
+---
+
+### Aliases: `regreader`, `rr`
+
+| Command        | Arguments                                                   | Description                                                                                         |
+| -------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **addreg**     | `name` `bits (≥1)` `spacing (≥1)` `inverted (bool)` `[hud]` | Add a register with given name, bit size, spacing, inverted flag, optional HUD (default "Default"). |
+| **assignHUD**  | `name` `HUD`                                                | Assign an existing register to a HUD.                                                               |
+| **defaultadd** | `hud` `name`                                                | Add a register with default bits, spacing, inverted for a HUD.                                      |
+| **deletereg**  | `name`                                                      | Delete a register by name.                                                                          |
+| **deleteall**  | —                                                           | Delete all registers.                                                                               |
+| **movereg**    | `name` `direction (up/down)` OR `name` `position (int≥0)`   | Move a register up/down or to specific position.                                                    |
+| **renamereg**  | `oldName` `newName`                                         | Rename a register from oldName to newName.                                                          |
+
+---
+
+### HUD Management Commands
+
+| Command                 | Arguments                 | Description                          |
+| ----------------------- | ------------------------- | ------------------------------------ |
+| **hud toggle/on/off**   | `state` (toggle/on/off)   | Enable/disable all HUDs.             |
+| **hud color**           | `HUD` `color (#AARRGGBB)` | Set HUD color with ARGB hex.         |
+| **hud add**             | `name`                    | Add new HUD with default settings.   |
+| **hud remove**          | `name`                    | Remove HUD by name.                  |
+| **hud rename**          | `name` `newName`          | Rename a HUD.                        |
+| **hud setDisplayBase**  | `HUD` `base (2,8,10,16)`  | Set display base for a HUD.          |
+| **hud setColoredNames** | `HUD` `bool`              | Enable/disable colored names on HUD. |
+| **hud setHUDSize**      | `HUD` `Width (int)`       | Set HUD width.                       |
+| **hud setHUDPos**       | `HUD` `X`/ `Y` `position (int)`| Set HUD X or Y position.        |
+
+---
+
+### Configuration Commands
+
+| Command                         | Arguments                | Description                         |
+| ------------------------------- | ------------------------ | ----------------------------------- |
+| **config reload**               | —                        | Reload the config file.             |
+| **config reset**                | —                        | Reset config to defaults.           |
+| **config setTitleMode**         | `titleMode (bool)`       | Enable/disable title mode.          |
+| **config setDefaults Bits**     | `defaultBits (2-32)`     | Set default bit size for registers. |
+| **config setDefaults Spacing**  | `defaultSpacing (>2)`    | Set default spacing.                |
+| **config setDefaults Inverted** | `defaultInverted (bool)` | Set default inverted flag.          |
+
+---
+
+### Profile Commands
+
+| Command            | Arguments | Description                       |
+| ------------------ | --------- | --------------------------------- |
+| **profile save**   | `name`    | Save current config as a profile. |
+| **profile load**   | `name`    | Load a saved profile.             |
+| **profile delete** | `name`    | Delete a saved profile.           |
 
 ### **HUD:**
-<img width="377" height="505" alt="image" src="https://github.com/user-attachments/assets/09d70f2b-811c-4320-b741-4b4bab964b24" />
+With titles:
+<img width="1264" height="476" alt="Screenshot 2025-07-29 175139" src="https://github.com/user-attachments/assets/d3a70712-dfaf-4fdd-911c-16a939b80072" />
+Without titles:
+<img width="1259" height="428" alt="Screenshot 2025-07-29 174036" src="https://github.com/user-attachments/assets/a41e1280-e4db-425b-bb69-bd1e8588646d" />
