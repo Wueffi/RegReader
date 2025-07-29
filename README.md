@@ -3,6 +3,8 @@
 
 **RegReader** is a lightweight yet powerful Minecraft mod that adds a customizable **HUD overlay** to keep track of your register values in-game! This does not only work for Registers, you can use it on Lamps and Torches too! Whether you're debugging, programming, or just want an easy way to monitor values, RegReader provides an intuitive and user-friendly experience.  
 
+[Download](https://modrinth.com/mod/regreader)
+
 ### **Features:**  
 - **HUD Overlay** – Displays register values in real-time directly on your screen.  
 - **Enable/Disable On Demand** – Toggle the HUD with F9 or per command whenever you need it.  
