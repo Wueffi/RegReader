@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.utils.ProfileUtils;
 
 import java.util.List;
@@ -34,9 +34,9 @@ public class ProfileCommand {
                                         .executes(context -> {
                                             String name = StringArgumentType.getString(context, "name");
                                             if (ProfileUtils.saveProfile(name)) {
-                                                context.getSource().sendFeedback(Text.literal("Profile '" + name + "' saved."));
+                                                context.getSource().sendFeedback(Component.nullToEmpty("Profile '" + name + "' saved."));
                                             } else {
-                                                context.getSource().sendError(Text.literal("Failed to save profile '" + name + "'!"));
+                                                context.getSource().sendError(Component.nullToEmpty("Failed to save profile '" + name + "'!"));
                                             }
                                             return 1;
                                         })))
@@ -46,9 +46,9 @@ public class ProfileCommand {
                                         .executes(context -> {
                                             String name = StringArgumentType.getString(context, "name");
                                             if (ProfileUtils.loadProfile(name)) {
-                                                context.getSource().sendFeedback(Text.literal("Loaded profile '" + name + "'."));
+                                                context.getSource().sendFeedback(Component.nullToEmpty("Loaded profile '" + name + "'."));
                                             } else {
-                                                context.getSource().sendError(Text.literal("Profile '" + name + "' not found!"));
+                                                context.getSource().sendError(Component.nullToEmpty("Profile '" + name + "' not found!"));
                                             }
                                             return 1;
                                         })))
@@ -58,9 +58,9 @@ public class ProfileCommand {
                                         .executes(context -> {
                                             String name = StringArgumentType.getString(context, "name");
                                             if (ProfileUtils.deleteProfile(name)) {
-                                                context.getSource().sendFeedback(Text.literal("Deleted profile '" + name + "'."));
+                                                context.getSource().sendFeedback(Component.nullToEmpty("Deleted profile '" + name + "'."));
                                             } else {
-                                                context.getSource().sendError(Text.literal("Profile '" + name + "' not found!"));
+                                                context.getSource().sendError(Component.nullToEmpty("Profile '" + name + "' not found!"));
                                             }
                                             return 1;
                                         })))

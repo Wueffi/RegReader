@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.RedstoneRegister;
 import wueffi.regreader.RegisterManager;
 
@@ -41,7 +41,7 @@ public class MoveRegCommand {
                                             String name = StringArgumentType.getString(context, "name");
                                             String direction = StringArgumentType.getString(context, "direction");
                                             RegisterManager.moveRegister(name, direction);
-                                            context.getSource().sendFeedback(Text.literal("Moved register '" + name + "' " + direction));
+                                            context.getSource().sendFeedback(Component.nullToEmpty("Moved register '" + name + "' " + direction));
                                             return 1;
                                         }))
                                 .then(argument("position", IntegerArgumentType.integer(0))
@@ -49,7 +49,7 @@ public class MoveRegCommand {
                                             String name = StringArgumentType.getString(context, "name");
                                             int position = IntegerArgumentType.getInteger(context, "position");
                                             RegisterManager.moveRegister(name, position);
-                                            context.getSource().sendFeedback(Text.literal("Moved register '" + name + "' to position " + position));
+                                            context.getSource().sendFeedback(Component.nullToEmpty("Moved register '" + name + "' to position " + position));
                                             return 1;
                                         })))));
     }

@@ -3,7 +3,7 @@ package wueffi.regreader.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.*;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
@@ -34,7 +34,7 @@ public class DefaultAddCommand {
 
                                 RegisterManager.addRegister(name, bits, spacing, inverted, hud);
                                 RegisterInteractionHandler.setLastAddedRegisterName(name);
-                                context.getSource().sendFeedback(Text.literal("Added register '" + name + "' to HUD '" + hud + "'"));
+                                context.getSource().sendFeedback(Component.nullToEmpty("Added register '" + name + "' to HUD '" + hud + "'"));
                                 return 1;
                             })
                         )

@@ -7,7 +7,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.sun.jdi.connect.Connector;
 import it.unimi.dsi.fastutil.booleans.BooleanArrays;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.HUDManager;
 import wueffi.regreader.RegReaderConfig;
 import wueffi.regreader.RegReaderHUD;
@@ -28,14 +28,14 @@ public class ConfigCommand {
                         .then(literal("reload")
                                 .executes(context -> {
                                     RegReaderConfig.load();
-                                    context.getSource().sendFeedback(Text.literal("Config reloaded!"));
+                                    context.getSource().sendFeedback(Component.nullToEmpty("Config reloaded!"));
                                     return 1;
                                 })
                         )
                         .then(literal("reset")
                                 .executes(context -> {
                                     RegReaderConfig.resetToDefaults();
-                                    context.getSource().sendFeedback(Text.literal("Config reset!"));
+                                    context.getSource().sendFeedback(Component.nullToEmpty("Config reset!"));
                                     return 1;
                                 })
                         )
@@ -44,7 +44,7 @@ public class ConfigCommand {
                                     .executes(context -> {
                                         boolean newMode = BoolArgumentType.getBool(context, "titleMode");
                                         RegReaderConfig.setTitleMode(newMode);
-                                        context.getSource().sendFeedback(Text.literal("Title Mode set to " + newMode + "!"));
+                                        context.getSource().sendFeedback(Component.nullToEmpty("Title Mode set to " + newMode + "!"));
                                         return 1;
                                     })
                                 )
@@ -55,7 +55,7 @@ public class ConfigCommand {
                                                 .executes(context -> {
                                                     int defaultBits = IntegerArgumentType.getInteger(context, "defaultBits");
                                                     RegReaderConfig.setDefaultBits(defaultBits);
-                                                    context.getSource().sendFeedback(Text.literal("Default-Bits set to " + defaultBits));
+                                                    context.getSource().sendFeedback(Component.nullToEmpty("Default-Bits set to " + defaultBits));
                                                     return 1;
                                                 })
                                         )
@@ -65,7 +65,7 @@ public class ConfigCommand {
                                                 .executes(context -> {
                                                     int defaultSpacing = IntegerArgumentType.getInteger(context, "defaultSpacing");
                                                     RegReaderConfig.setDefaultSpacing(defaultSpacing);
-                                                    context.getSource().sendFeedback(Text.literal("Default-Spacing set to " + defaultSpacing));
+                                                    context.getSource().sendFeedback(Component.nullToEmpty("Default-Spacing set to " + defaultSpacing));
                                                     return 1;
                                                 })
                                         )
@@ -75,7 +75,7 @@ public class ConfigCommand {
                                                 .executes(context -> {
                                                     boolean defaultInverted = BoolArgumentType.getBool(context,"defaultInverted");
                                                     RegReaderConfig.setDefaultInverted(defaultInverted);
-                                                    context.getSource().sendFeedback(Text.literal("Default-Inverted set to " + defaultInverted));
+                                                    context.getSource().sendFeedback(Component.nullToEmpty("Default-Inverted set to " + defaultInverted));
                                                     return 1;
                                                 })
                                         )

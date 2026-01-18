@@ -46,9 +46,9 @@ public class HUDRenderer {
                         matrices.scale(scale, scale, 1.0f);
 
                         if (coloredNames) {
-                            drawContext.drawText(client.textRenderer, Text.literal(hud.getHUDName()).styled(style -> style.withColor((int) color)), 0, 0, (int) color, true);
+                            drawContext.drawText(drawContext.textRenderer(), Text.literal(hud.getHUDName()).styled(style -> style.withColor((int) color)), 0, 0, (int) color, true);
                         } else {
-                            drawContext.drawText(client.textRenderer, Text.literal(hud.getHUDName()), 0, 0, 0xFFFFFFFF, true);
+                            drawContext.drawText(drawContext.textRenderer(), Text.literal(hud.getHUDName()), 0, 0, 0xFFFFFFFF, true);
                         }
 
                         matrices.pop();
