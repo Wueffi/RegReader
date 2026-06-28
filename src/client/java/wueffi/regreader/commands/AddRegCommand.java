@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.RegisterInteractionHandler;
 import wueffi.regreader.RegisterManager;
 
@@ -32,7 +32,7 @@ public class AddRegCommand {
 
                                                             RegisterManager.addRegister(name, bits, spacing, inverted, "Default");
                                                             RegisterInteractionHandler.setLastAddedRegisterName(name);
-                                                            context.getSource().sendFeedback(Text.literal("Added register '" + name + "' to HUD 'Default'"));
+                                                            context.getSource().sendFeedback(Component.literal("Added register '" + name + "' to HUD 'Default'"));
                                                             return 1;
                                                         })
 
@@ -46,7 +46,7 @@ public class AddRegCommand {
 
                                                                     RegisterManager.addRegister(name, bits, spacing, inverted, hud);
                                                                     RegisterInteractionHandler.setLastAddedRegisterName(name);
-                                                                    context.getSource().sendFeedback(Text.literal("Added register '" + name + "' to HUD '" + hud + "'"));
+                                                                    context.getSource().sendFeedback(Component.literal("Added register '" + name + "' to HUD '" + hud + "'"));
                                                                     return 1;
                                                                 })
                                                         )

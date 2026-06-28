@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.HUDManager;
 import wueffi.regreader.RegReaderConfig;
 import wueffi.regreader.RegReaderHUD;
@@ -46,11 +46,11 @@ public class HUDCommand {
                                     } else if (state.equalsIgnoreCase("off")) {
                                         RegisterManager.setHudEnabled(false);
                                     } else {
-                                        context.getSource().sendError(Text.literal("Invalid argument!"));
+                                        context.getSource().sendError(Component.literal("Invalid argument!"));
                                         return 0;
                                     }
 
-                                    context.getSource().sendFeedback(Text.literal("All HUD's are now " + (RegReaderConfig.isHudEnabled() ? "enabled" : "disabled")));
+                                    context.getSource().sendFeedback(Component.literal("All HUD's are now " + (RegReaderConfig.isHudEnabled() ? "enabled" : "disabled")));
                                     return 1;
                                 }))
                         .then(literal("color")
@@ -68,13 +68,13 @@ public class HUDCommand {
                                                 if (color.matches("^#[0-9A-Fa-f]{8}$")) {
                                                     RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                                     if(HUD == null) {
-                                                        context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                                        context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                                         return 0;
                                                     }
                                                     HUD.setHUDColor(color);
-                                                    context.getSource().sendFeedback(Text.literal(hud + " color set to " + color));
+                                                    context.getSource().sendFeedback(Component.literal(hud + " color set to " + color));
                                                 } else {
-                                                    context.getSource().sendError(Text.literal("Invalid color format. Please use a valid hex color code (#AARRGGBB). Remember to use '"));
+                                                    context.getSource().sendError(Component.literal("Invalid color format. Please use a valid hex color code (#AARRGGBB). Remember to use '"));
                                                 }
                                                 return 1;
                                             })
@@ -87,9 +87,9 @@ public class HUDCommand {
                                             String name = StringArgumentType.getString(context, "name");
                                             if (!name.isEmpty()) {
                                                 HUDManager.addHUD(name, "#FFFFFF", 10, true, 80, 100, 12);
-                                                context.getSource().sendFeedback(Text.literal("Added HUD: " + name));
+                                                context.getSource().sendFeedback(Component.literal("Added HUD: " + name));
                                             } else {
-                                                context.getSource().sendError(Text.literal("Name can not be empty!"));
+                                                context.getSource().sendError(Component.literal("Name can not be empty!"));
                                             }
                                             return 1;
                                         })
@@ -107,9 +107,9 @@ public class HUDCommand {
                                             String name = StringArgumentType.getString(context, "name");
                                             if (!name.isEmpty()) {
                                                 HUDManager.removeHUD(name);
-                                                context.getSource().sendFeedback(Text.literal("Removed HUD: " + name));
+                                                context.getSource().sendFeedback(Component.literal("Removed HUD: " + name));
                                             } else {
-                                                context.getSource().sendError(Text.literal("Name can not be empty!"));
+                                                context.getSource().sendError(Component.literal("Name can not be empty!"));
                                             }
                                             return 1;
                                         })
@@ -129,14 +129,14 @@ public class HUDCommand {
                                                 String name = StringArgumentType.getString(context, "name");
                                                 String newName = StringArgumentType.getString(context, "newName");
                                                 if (name.isEmpty() || newName.isEmpty()) {
-                                                    context.getSource().sendError(Text.literal("Name and new Name can not be empty!"));
+                                                    context.getSource().sendError(Component.literal("Name and new Name can not be empty!"));
                                                     return 0;
                                                 }
                                                 if(!HUDManager.renameHUD(name, newName)) {
-                                                    context.getSource().sendError(Text.literal("Could not rename HUD."));
+                                                    context.getSource().sendError(Component.literal("Could not rename HUD."));
                                                     return 0;
                                                 }
-                                                context.getSource().sendFeedback(Text.literal("Renamed HUD: " + name + " to: " + newName));
+                                                context.getSource().sendFeedback(Component.literal("Renamed HUD: " + name + " to: " + newName));
                                                 return 1;
                                             })
                                         )
@@ -164,14 +164,14 @@ public class HUDCommand {
                                                 if (validBases.contains(base)) {
                                                     RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                                     if(HUD == null) {
-                                                        context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                                        context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                                         return 0;
                                                     }
                                                     HUD.setDisplayBase(base);
-                                                    context.getSource().sendFeedback(Text.literal(hud + " base set to " + base));
+                                                    context.getSource().sendFeedback(Component.literal(hud + " base set to " + base));
                                                     return 1;
                                                 } else {
-                                                    context.getSource().sendError(Text.literal("Invalid base! Use 2, 8, 10, or 16."));
+                                                    context.getSource().sendError(Component.literal("Invalid base! Use 2, 8, 10, or 16."));
                                                     return 0;
                                                 }
                                             })
@@ -193,11 +193,11 @@ public class HUDCommand {
                                                 String hud = StringArgumentType.getString(context, "HUD");
                                                 RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                                 if(HUD == null) {
-                                                    context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                                    context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                                     return 0;
                                                 }
                                                 HUD.setColoredNames(setting);
-                                                context.getSource().sendFeedback(Text.literal(hud + " Colored names set to " + setting));
+                                                context.getSource().sendFeedback(Component.literal(hud + " Colored names set to " + setting));
                                                 return 1;
                                             })
                                     )
@@ -218,11 +218,11 @@ public class HUDCommand {
                                                 String hud = StringArgumentType.getString(context, "HUD");
                                                 RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                                 if(HUD == null) {
-                                                    context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                                    context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                                     return 0;
                                                 }
                                                 HUD.setRectangleWidth(Width);
-                                                context.getSource().sendFeedback(Text.literal(hud + " Width set to " + Width));
+                                                context.getSource().sendFeedback(Component.literal(hud + " Width set to " + Width));
                                                 return 1;
                                             })
                                     )
@@ -244,11 +244,11 @@ public class HUDCommand {
                                                         String hud = StringArgumentType.getString(context, "HUD");
                                                         RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                                         if(HUD == null) {
-                                                            context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                                            context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                                             return 0;
                                                         }
                                                         HUD.setxPos(X);
-                                                        context.getSource().sendFeedback(Text.literal(hud + " X-Position set to " + X));
+                                                        context.getSource().sendFeedback(Component.literal(hud + " X-Position set to " + X));
                                                         return 1;
                                                     })
                                             )
@@ -260,11 +260,11 @@ public class HUDCommand {
                                                         String hud = StringArgumentType.getString(context, "HUD");
                                                         RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                                         if(HUD == null) {
-                                                            context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                                            context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                                             return 0;
                                                         }
                                                         HUD.setyPos(Y);
-                                                        context.getSource().sendFeedback(Text.literal(hud + " Y-Position set to " + Y));
+                                                        context.getSource().sendFeedback(Component.literal(hud + " Y-Position set to " + Y));
                                                         return 1;
                                                     })
                                             )

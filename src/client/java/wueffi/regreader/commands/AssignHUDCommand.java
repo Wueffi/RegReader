@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.HUDManager;
 import wueffi.regreader.RedstoneRegister;
 import wueffi.regreader.RegReaderHUD;
@@ -44,15 +44,15 @@ public class AssignHUDCommand {
                                     String hud = StringArgumentType.getString(context, "HUD");
                                     RegReaderHUD HUD = HUDManager.findHUDByName(hud);
                                     if(HUD == null) {
-                                        context.getSource().sendError(Text.literal("HUD " + hud + " not found."));
+                                        context.getSource().sendError(Component.literal("HUD " + hud + " not found."));
                                         return 0;
                                     }
                                     if (Reg == null) {
-                                        context.getSource().sendError(Text.literal("Couldn't find register '" + name + "'"));
+                                        context.getSource().sendError(Component.literal("Couldn't find register '" + name + "'"));
                                         return 0;
                                     }
                                     Reg.setAssignedHUD(hud);
-                                    context.getSource().sendFeedback(Text.literal("Assigned register '" + name + "' to HUD " + hud + "."));
+                                    context.getSource().sendFeedback(Component.literal("Assigned register '" + name + "' to HUD " + hud + "."));
                                     return 1;
                                 })))));
     }

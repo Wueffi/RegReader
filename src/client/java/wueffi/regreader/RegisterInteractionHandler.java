@@ -2,41 +2,40 @@ package wueffi.regreader;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class RegisterInteractionHandler {
     private static String lastAddedRegisterName = null;
 
     public static void initialize() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            if (lastAddedRegisterName != null && player.getWorld().isClient) {
+            if (lastAddedRegisterName != null && world.isClientSide()) {
                 BlockPos pos = hitResult.getBlockPos();
                 Block block = world.getBlockState(pos).getBlock();
 
-                // Check if the block is a lamp, torch, or repeater
                 if (block == Blocks.REDSTONE_LAMP || block == Blocks.REDSTONE_TORCH || block == Blocks.REPEATER) {
-                    // Associate the block coordinates with the last added initialize
                     RedstoneRegister register = RegisterManager.findRegisterByName(lastAddedRegisterName);
                     if (register != null) {
                         register.setPosition(pos);
-                        player.sendMessage(Text.literal("Associated block at " + pos + " with initialize '" + lastAddedRegisterName + "'"), true);
-                        lastAddedRegisterName = null; // Reset after association
-                        return ActionResult.SUCCESS;
+                        player.displayClientMessage(Component.literal("Associated block at " + pos + " with register '" + lastAddedRegisterName + "'"), false);
+                        lastAddedRegisterName = null;
+                        return InteractionResult.SUCCESS;
                     }
                 }
             }
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         });
 
-        // Reset lastAddedRegisterName after a short delay (optional)
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (lastAddedRegisterName != null && MinecraftClient.getInstance().player != null) {
-                MinecraftClient.getInstance().player.sendMessage(Text.literal("Right-click a lamp, torch, or repeater to associate it with regsiter '" + lastAddedRegisterName + "'"), true);
+            if (lastAddedRegisterName != null && Minecraft.getInstance().player != null) {
+                Minecraft.getInstance().player.displayClientMessage(
+                        Component.literal("Right-click a lamp, torch, or repeater to associate it with register '" + lastAddedRegisterName + "'"), false
+                );
             }
         });
     }

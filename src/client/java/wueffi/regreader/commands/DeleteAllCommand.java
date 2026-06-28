@@ -2,7 +2,7 @@ package wueffi.regreader.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wueffi.regreader.RegReaderConfig;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
@@ -18,7 +18,7 @@ public class DeleteAllCommand {
                 .then(literal("deleteall")
                         .executes(context -> {
                             RegReaderConfig.removeAll();
-                            context.getSource().sendFeedback(Text.literal("Deleted all registers."));
+                            context.getSource().sendFeedback(Component.literal("Deleted all registers."));
                             return 1;
                         })));
     }

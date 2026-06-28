@@ -1,8 +1,10 @@
 package wueffi.regreader;
 
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +12,8 @@ public class HUDRenderer {
     private static final Logger LOGGER = LoggerFactory.getLogger("RegReader");
 
     public static void initialize() {
-        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
-            MinecraftClient client = MinecraftClient.getInstance();
+        HudRenderCallback.EVENT.register((guiGraphics, tickDelta) -> {
+            Minecraft client = Minecraft.getInstance();
 
             if (!RegReaderConfig.isHudEnabled()) return;
 
@@ -34,24 +36,24 @@ public class HUDRenderer {
 
                 try {
                     long color = parseColor(hudColor);
-                    drawContext.fill(rectangleX, rectangleY, rectangleX + rectangleWidth, rectangleY + rectangleHeight, 0x55FFFFFF);
-                    drawContext.drawBorder(rectangleX, rectangleY, rectangleWidth, rectangleHeight, (int) color);
+                    guiGraphics.fill(rectangleX, rectangleY, rectangleX + rectangleWidth, rectangleY + rectangleHeight, 0x55FFFFFF);
+                    guiGraphics.renderOutline(rectangleX, rectangleY, rectangleWidth, rectangleHeight, (int) color);
 
-                    var matrices = drawContext.getMatrices();
+                    var matrices = guiGraphics.pose();
 
                     if (RegReaderConfig.getTitleMode()) {
-                        matrices.push();
+                        matrices.pushMatrix();
                         float scale = 0.8f;
-                        matrices.translate(hud.xPos, hud.yPos - 8, 0);
-                        matrices.scale(scale, scale, 1.0f);
+                        matrices.translate((float) hud.xPos, (float) hud.yPos - 8);
+                        matrices.scale(scale, scale);
 
                         if (coloredNames) {
-                            drawContext.drawText(client.textRenderer, Text.literal(hud.getHUDName()).styled(style -> style.withColor((int) color)), 0, 0, (int) color, true);
+                            guiGraphics.drawString(client.font, Component.literal(hud.getHUDName()).withStyle(Style.EMPTY.withColor(TextColor.fromRgb((int) color))), 0, 0, (int) color, true);
                         } else {
-                            drawContext.drawText(client.textRenderer, Text.literal(hud.getHUDName()), 0, 0, 0xFFFFFFFF, true);
+                            guiGraphics.drawString(client.font, Component.literal(hud.getHUDName()), 0, 0, 0xFFFFFFFF, true);
                         }
 
-                        matrices.pop();
+                        matrices.popMatrix();
                     }
 
                     int yOffset = rectangleY + 2;
@@ -64,16 +66,16 @@ public class HUDRenderer {
                         String registerValue = formattedValue;
 
                         if (coloredNames) {
-                            drawContext.drawText(client.textRenderer, Text.literal(registerName).styled(style -> style.withColor((int) color)), rectangleX + 4, yOffset, (int) color, true);
+                            guiGraphics.drawString(client.font, Component.literal(registerName).withStyle(Style.EMPTY.withColor(TextColor.fromRgb((int) color))), rectangleX + 4, yOffset, (int) color, true);
                         } else {
-                            drawContext.drawText(client.textRenderer, Text.literal(registerName), rectangleX + 4, yOffset, 0xFFFFFFFF, true);
+                            guiGraphics.drawString(client.font, Component.literal(registerName), rectangleX + 4, yOffset, 0xFFFFFFFF, true);
                         }
-                        drawContext.drawText(client.textRenderer, Text.literal(registerValue), rectangleX + 4 + client.textRenderer.getWidth(registerName), yOffset, 0xFFFFFFFF, true);
+                        guiGraphics.drawString(client.font, Component.literal(registerValue), rectangleX + 4 + client.font.width(registerName), yOffset, 0xFFFFFFFF, true);
                         yOffset += lineHeight;
                     }
                 } catch (NumberFormatException e) {
                     LOGGER.error("Invalid HUD color format for '{}': {}", hud.getHUDName(), hudColor, e);
-                    drawContext.fill(rectangleX, rectangleY, rectangleX + rectangleWidth, rectangleY + rectangleHeight, 0xFF0000);
+                    guiGraphics.fill(rectangleX, rectangleY, rectangleX + rectangleWidth, rectangleY + rectangleHeight, 0xFF0000);
                 }
             }
         });

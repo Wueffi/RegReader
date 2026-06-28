@@ -3,20 +3,20 @@ package wueffi.regreader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
 import wueffi.regreader.commands.*;
-import wueffi.regreader.RegisterManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.lwjgl.glfw.GLFW;
 
 import static wueffi.regreader.RegisterManager.hudEnabled;
 
 public class WueffisRegReaderClient implements ClientModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("RegReader");
-    public static KeyBinding toggleHudKey;
+    public static KeyMapping toggleHudKey;
 
     public static void initialize() {
         // Initialize interaction handler
@@ -51,14 +51,13 @@ public class WueffisRegReaderClient implements ClientModInitializer {
         LOGGER.info("Registering Commands...");
         initialize();
         LOGGER.info("Registering Keybind...");
-        toggleHudKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        toggleHudKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.regreader.toggle_hud",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_F9,
-                "category.regreader"
+                InputConstants.KEY_F9,
+                KeyMapping.Category.register(Identifier.parse("category.regreader"))
         ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (toggleHudKey.wasPressed()) {
+            while (toggleHudKey.consumeClick()) {
                 RegisterManager.setHudEnabled(!hudEnabled);
             }
         });
