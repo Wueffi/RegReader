@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.*;
 
 public class HUDCommand {
     private static final List<Integer> validBases = Arrays.asList(2, 8, 10, 16);

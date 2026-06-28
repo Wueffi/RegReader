@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import wueffi.regreader.RedstoneRegister;
 import wueffi.regreader.RegisterManager;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.*;
 
 public class RenameRegCommand {
     private static final SuggestionProvider<FabricClientCommandSource> REGISTER_NAME_SUGGESTIONS = (context, builder) -> {

@@ -2,7 +2,7 @@ package wueffi.regreader;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import wueffi.regreader.commands.*;
@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mojang.blaze3d.platform.InputConstants;
-import org.lwjgl.glfw.GLFW;
 
 import static wueffi.regreader.RegisterManager.hudEnabled;
 
@@ -51,7 +50,7 @@ public class WueffisRegReaderClient implements ClientModInitializer {
         LOGGER.info("Registering Commands...");
         initialize();
         LOGGER.info("Registering Keybind...");
-        toggleHudKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        toggleHudKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.regreader.toggle_hud",
                 InputConstants.KEY_F9,
                 KeyMapping.Category.register(Identifier.parse("category.regreader"))

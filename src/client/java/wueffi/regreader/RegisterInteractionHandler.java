@@ -22,7 +22,7 @@ public class RegisterInteractionHandler {
                     RedstoneRegister register = RegisterManager.findRegisterByName(lastAddedRegisterName);
                     if (register != null) {
                         register.setPosition(pos);
-                        player.displayClientMessage(Component.literal("Associated block at " + pos + " with register '" + lastAddedRegisterName + "'"), false);
+                        player.sendSystemMessage(Component.literal("Associated block at " + pos + " with register '" + lastAddedRegisterName + "'"));
                         lastAddedRegisterName = null;
                         return InteractionResult.SUCCESS;
                     }
@@ -33,8 +33,8 @@ public class RegisterInteractionHandler {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (lastAddedRegisterName != null && Minecraft.getInstance().player != null) {
-                Minecraft.getInstance().player.displayClientMessage(
-                        Component.literal("Right-click a lamp, torch, or repeater to associate it with register '" + lastAddedRegisterName + "'"), false
+                Minecraft.getInstance().player.sendSystemMessage(
+                        Component.literal("Right-click a lamp, torch, or repeater to associate it with register '" + lastAddedRegisterName + "'")
                 );
             }
         });

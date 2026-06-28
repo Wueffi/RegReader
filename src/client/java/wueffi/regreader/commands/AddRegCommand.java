@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import wueffi.regreader.RegisterInteractionHandler;
 import wueffi.regreader.RegisterManager;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.*;
 
 public class AddRegCommand {
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
