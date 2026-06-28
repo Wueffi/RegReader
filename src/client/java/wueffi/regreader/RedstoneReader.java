@@ -40,23 +40,21 @@ public class RedstoneReader {
     private static int readRedstoneSignal(Level world, BlockPos pos, int bits, int spacing, boolean inverted) {
         int value = 0;
         for (int i = 0; i < bits; i++) {
-            // Calculate the position of the current bit (starting from the top)
             BlockPos signalPos = pos.relative(Direction.DOWN, i * spacing);
-            Block block = world.getBlockState(signalPos).getBlock();
+            BlockState state = world.getBlockState(signalPos);
+            Block block = state.getBlock();
             boolean isPowered = false;
 
-            if (block instanceof RedstoneTorchBlock) {
-                isPowered = world.getBlockState(signalPos).getProperties().contains(BlockStateProperties.LIT);
+            if (block instanceof RedstoneTorchBlock || block instanceof RedstoneLampBlock) {
+                isPowered = state.getValue(BlockStateProperties.LIT);
             } else if (block instanceof RepeaterBlock) {
-                isPowered = world.getBlockState(signalPos).getProperties().contains(BlockStateProperties.POWERED);
-            } else if (block instanceof RedstoneLampBlock) {
-                isPowered = world.getBlockState(signalPos).getProperties().contains(BlockStateProperties.LIT);
+                isPowered = state.getValue(BlockStateProperties.POWERED);
             }
+
             if (isPowered) {
-                value |= (1 << (bits - 1 - i)); // Set the bit if the block BlockPos powered (MSB at top)
+                value |= (1 << (bits - 1 - i));
             }
         }
-        int finalValue = inverted ? ~value & ((1 << bits) - 1) : value; // Invert the value if needed
-        return finalValue;
+        return inverted ? ~value & ((1 << bits) - 1) : value;
     }
 }
